@@ -22,8 +22,7 @@ export const MainLayout = ({ children}: MainLayoutProps) => {
         <div className = "main-nav-items">
             <Link to="/catalog"className='main-nav-item'>Каталог</Link>
             <Link to="/sales" className='main-nav-item'>Продажи</Link>
-            <Link to="/advertising" className='main-nav-item'>Реклама</Link>
-            <Link to="/data" className='main-nav-item'>Данные</Link>
+            <Link to="/notifications" className='main-nav-item'>Уведомления</Link>
             <Link to="/profile" className='main-nav-item'>Профиль</Link>
             <button className='logout-button' onClick={fetchLogout}>Выйти</button>
         </div>

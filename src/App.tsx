@@ -2,9 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import { CatalogPage } from './pages/CatalogPage.tsx';
 import { ProfilePage } from './pages/ProfilePage.tsx';
 import { SalesPage } from './pages/SalesPage.tsx';
+import { NotificationsPage } from './pages/NotificationsPage.tsx';
 import { AuthPage } from './pages/AuthPage.tsx';
-import { AdvertisingPage } from './pages/AdvertisingPage.tsx';
-import { DataPage } from './pages/DataPage.tsx';
 import { ProtectedRoute } from './layouts/ProtectedRoute.tsx';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -34,19 +33,12 @@ export const App = () => {
               <SalesPage/>
             </ProtectedRoute> 
            }/>
-        
-       
-           <Route path="/advertising" element={
-            <ProtectedRoute>
-              <AdvertisingPage/>
-            </ProtectedRoute> 
-            }/> 
 
-            <Route path="/data" element={
-              <ProtectedRoute>
-                <DataPage/>
-              </ProtectedRoute> 
-            }/> 
+           <Route path="/notifications" element={
+             <ProtectedRoute>
+              <NotificationsPage/>
+            </ProtectedRoute> 
+           }/>
 
             <Route path="/profile" element={
               <ProtectedRoute>
