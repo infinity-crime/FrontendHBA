@@ -33,13 +33,42 @@
     color: black;     
 }
 
+.catalog-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 20px;
+    margin-left: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.archive-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #262626;
+    cursor: pointer;
+}
+
+.archive-toggle .ant-checkbox {
+    margin: 0;
+}
+
+.import-button {
+    margin: 0;
+}
+
 .buttons-container{
     display: flex;
     flex-direction: column;
     padding: 20px 0;
 }
 
-.catalog-button button{
+.catalog-button button,
+.catalog-button-wrapper button {
     width:140px;
     height: 140px;
     margin: 20px;
@@ -49,6 +78,63 @@
     background: white;
     color:black;
     font-size: 20px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.catalog-button button:hover,
+.catalog-button-wrapper button:hover {
+    border-color: #999;
+}
+
+.catalog-button-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.catalog-button-wrapper button {
+    width: 140px;
+    height: 140px;
+    margin: 20px;
+    margin-left: 40px;
+}
+
+.delete-category {
+    position: absolute !important;
+    top: 15px !important;
+    right: 5px !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: #ff4d4f !important;
+    color: white !important;
+    border: none !important;
+    font-size: 18px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-category:hover {
+    background: #ff7875 !important;
+    transform: scale(1.1);
+}
+
+.add-category {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px;
+    font-size: 16px !important;
+}
+
+.add-category:hover {
+    background: #f0f0f0;
 }
 
 .catalog-button button.active {

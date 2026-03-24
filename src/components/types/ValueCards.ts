@@ -11,6 +11,7 @@ export type ValueCards = {
     category: string;
     margin: number;
     isActive: boolean;
+    isArchived: boolean;
     createdAt: string;
     updatedAt: string;
 }
