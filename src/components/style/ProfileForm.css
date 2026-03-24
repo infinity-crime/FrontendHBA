@@ -1,0 +1,268 @@
+
+h1 {
+    color: black;
+    font-size: 40px;
+    user-select: none; 
+}
+
+.header-box{
+    display: flex;
+    justify-content:  space-between;
+    padding: 25px;
+}
+
+.header-box span{
+    font-size: 20px;
+    padding-top: 10px;
+    color:black;
+    user-select: none;  
+    transition: background-color 0.3s;   
+    cursor: pointer; 
+    padding-left: 170px;
+}
+
+.header-box span:hover{
+    color: #2F4F4F;
+}
+
+.header-box text{
+    color:black;
+    font-size: 30px;
+}
+
+.profile-box {
+  background: white;
+  margin: 40px;
+  border-radius: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 650px;
+  height: 800px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content:  space-between;
+  align-items: center;
+  min-height: calc(100vh - 400px);
+  animation: pageLoad 0.6s ease-out; 
+}
+
+.profile-box hr {
+  height: 1px;
+  background-color: #ddd;
+  margin: 5px 0;
+}
+
+.info-box {
+  padding-left: 20px;
+  text-align: left;
+}
+
+.info-box-change{
+  padding-left: 20px;
+  text-align: left;
+}
+
+
+.info-box-change text {
+  color:black; 
+  font-size: 20px;        
+}
+
+.info-box-change label {
+  display: block; 
+  color: black;
+  font-size: 20px;    
+}
+
+.info-box-change input {
+  width: 400px;
+  margin-bottom: 12px;
+  padding: 3px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  transition: border-color 0.3s;
+  background: white;
+  text-align: left;
+  color: black;  
+}
+
+
+.info-box text {
+  color:black; 
+  font-size: 29px;        
+}
+
+.info-box label {
+  display: block; 
+  color: black;
+  font-size: 20px;
+}
+
+.info-box input{
+  width: 400px;
+  margin-bottom: 12px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  transition: border-color 0.3s;
+  background: white;
+  text-align: left;
+  font-size: 25px;
+  color: black;      
+}
+
+.edit-buttom-success{
+  width: 200px;
+  padding: 14px;
+  margin: 10px;
+  background-color: #008000;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-weight: 600px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.edit-buttom-success-popover{
+  width: 150px;
+  padding: 7px;
+  margin-left: 50px;
+  background-color: #008000;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-weight: 600px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 15px;
+}
+
+
+.edit-buttom-cancel{
+  width: 200px;
+  padding: 14px;
+  margin: 10px;
+  background-color: #c10303;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  font-weight: 600px; 
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+
+
+.photo-box{
+  background: white;
+  margin: 40px;
+  border-radius: 40px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 600px;
+  height: 500px;
+  margin-top: -250px;
+}
+
+.photo-container{
+    margin: 15px;
+    margin-left: 25px;
+    width: 90%;
+    height: 400px; 
+    border: 2px dashed #ccc;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f9f9f9;
+    flex-shrink: 0; 
+    color: black;
+}
+
+.button-container {
+  margin-top: 20px; 
+  width: 100%;
+  text-align: center;
+  flex-shrink: 0; 
+}
+
+.file-button{
+  user-select: none;      
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 30px;
+  display: block;
+  transition: background-color 0.3s;
+}
+
+.file-button:hover{
+   color: #2F4F4F;
+}
+
+.admin-button button{
+  color:black;
+  width: 70%;
+  padding: 14px;
+  background-color: rgb(183, 183, 1);
+  border: none;
+  border-radius: 40px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 40px;
+  font-size: 25px;
+}
+
+.admin-button button:hover{
+  background-color: rgb(211, 211, 3);
+}
+
+
+.change-password-link{
+  color:black;
+  margin-left: 20px;
+  font-size: 15px;
+  text-decoration: underline;
+}
+
+.input-password-change{
+  width: 250px;
+  margin-bottom: 12px;
+  padding: 3px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  transition: border-color 0.3s;
+  background: white;
+  text-align: left;
+  color: black;  
+}
+
+@keyframes pageLoad {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.custom-tooltip .ant-tooltip-inner {
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-size: 14px;
+}
+
+
