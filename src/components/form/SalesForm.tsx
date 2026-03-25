@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Table, Space, Tag } from 'antd';
+import { Table, Space, Tag, Select } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
 import '../style/SalesForm.css';
 import { SalesModal } from '../modalWindows/SalesModal';
@@ -10,6 +10,8 @@ export const SalesForm = () => {
   const [orders] = useState<Order[]>(getMockOrders());
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [customerTypeFilter, setCustomerTypeFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -55,6 +57,12 @@ export const SalesForm = () => {
     setSelectedOrder(null);
   };
 
+  const filteredOrders = orders.filter((order) => {
+    const customerTypeMatch = !customerTypeFilter || order.customerType === customerTypeFilter;
+    const statusMatch = !statusFilter || order.status === statusFilter;
+    return customerTypeMatch && statusMatch;
+  });
+
   const columns = [
     {
       title: 'Заказ №',
@@ -62,12 +70,14 @@ export const SalesForm = () => {
       key: 'id',
       width: 80,
       render: (id: number) => <span className="order-id">#{id}</span>,
+      sorter: (a: Order, b: Order) => a.id - b.id,
     },
     {
       title: 'ФИО покупателя',
       dataIndex: 'customerName',
       key: 'customerName',
       render: (text: string) => <span className="customer-name">{text}</span>,
+      sorter: (a: Order, b: Order) => a.customerName.localeCompare(b.customerName, 'ru'),
     },
     {
       title: 'Тип покупателя',
@@ -79,6 +89,7 @@ export const SalesForm = () => {
           {type === 'individual' ? 'Физлицо' : 'Юрлицо'}
         </Tag>
       ),
+      sorter: (a: Order, b: Order) => a.customerType.localeCompare(b.customerType, 'ru'),
     },
     {
       title: 'Сумма',
@@ -86,6 +97,7 @@ export const SalesForm = () => {
       key: 'totalAmount',
       width: 120,
       render: (amount: number) => <span className="total-amount">{amount} ₽</span>,
+      sorter: (a: Order, b: Order) => a.totalAmount - b.totalAmount,
     },
     {
       title: 'Статус',
@@ -114,6 +126,7 @@ export const SalesForm = () => {
           })}
         </span>
       ),
+      sorter: (a: Order, b: Order) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
     },
     {
       title: 'Действия',
@@ -138,10 +151,45 @@ export const SalesForm = () => {
         <h1>Продажи</h1>
       </div>
 
+      <div className="sales-filters" style={{ marginBottom: '20px', display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+        <div style={{ flex: '1', minWidth: '200px' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, color: "black" }}>Тип покупателя</label>
+          <Select
+            placeholder="Все типы покупателей"
+            value={customerTypeFilter}
+            onChange={setCustomerTypeFilter}
+            allowClear
+            style={{ width: '100%' }}
+            options={[
+              { label: 'Физлицо', value: 'individual' },
+              { label: 'Юрлицо', value: 'legal' },
+            ]}
+          />
+        </div>
+
+        <div style={{ flex: '1', minWidth: '200px' }}>
+          <label style={{ display: 'block', marginBottom: '8px', fontWeight: 500, color: "black" }}>Статус заказа</label>
+          <Select
+            placeholder="Все статусы"
+            value={statusFilter}
+            onChange={setStatusFilter}
+            allowClear
+            style={{ width: '100%' }}
+            options={[
+              { label: 'Ожидание', value: 'pending' },
+              { label: 'В обработке', value: 'processing' },
+              { label: 'Отправлен', value: 'shipped' },
+              { label: 'Доставлен', value: 'delivered' },
+              { label: 'Отменён', value: 'cancelled' },
+            ]}
+          />
+        </div>
+      </div>
+
       <div className="sales-table-wrapper">
         <Table
           columns={columns}
-          dataSource={orders}
+          dataSource={filteredOrders}
           rowKey="id"
           pagination={{
             pageSize: 10,
