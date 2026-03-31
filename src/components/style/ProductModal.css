@@ -179,7 +179,7 @@
 }
 
 .form-group .ant-switch {
-  width: auto !important;
+  width: 10px;
 }
 
 .form-row {

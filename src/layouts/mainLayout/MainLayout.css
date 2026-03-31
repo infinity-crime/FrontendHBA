@@ -76,6 +76,18 @@
   color:#C0C0C0;
 }
 
+/* Badge styling for notifications */
+.ant-badge {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ant-badge-count {
+  font-size: 12px;
+  height: 20px;
+  line-height: 20px;
+}
+
 .logout-button {
   background: rgb(209, 4, 4);
   border: 2px solid white;
