@@ -44,10 +44,11 @@ export const refreshToken = async (): Promise<{ token: string }> => {
 };
 
 export const logout = async (): Promise<void> => {
-  // Mock logout - just remove token
+  // Mock logout - just remove token and user login
   return new Promise((resolve) => {
     setTimeout(() => {
       localStorage.removeItem('access_token');
+      localStorage.removeItem('userLogin');
       console.log('Logged out (mock)');
       resolve();
     }, 500);

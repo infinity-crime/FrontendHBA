@@ -14,6 +14,11 @@ interface ViewFormProps {
   buttonText: string;   
 }
 
+const isAdmin = (): boolean => {
+  const login = localStorage.getItem('userLogin') || '';
+  return login === 'админ';
+};
+
 
 export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormProps) => {
 
@@ -128,11 +133,13 @@ export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormP
             style={{ display: 'none' }}
           />
 
-          <div className='admin-button'>
-            <button onClick={onAdminClick}>
-              Управление сотрудниками
-            </button>
-          </div>
+          {isAdmin() && (
+            <div className='admin-button'>
+              <button onClick={onAdminClick}>
+                Управление сотрудниками
+              </button>
+            </div>
+          )}
         </div> 
 
       <div className="profile-box">

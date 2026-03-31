@@ -23,6 +23,11 @@ interface AdminFormProps {
   onAdminClick: () => void;  
 }
 
+const isAdmin = (): boolean => {
+  const login = localStorage.getItem('userLogin') || '';
+  return login === 'админ';
+};
+
 export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
   const [users, setUsers ]= useState<AdminProfileResponse[]>([]);
   const [positions, setPosition ]= useState<DepartmentPositionResponse[]>([]);
@@ -242,7 +247,9 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
                     }))
                 }}/> 
                 
-                <Button className='add-user-button'  onClick={toggleAddUserModal}>Добавить пользователя</Button>
+                {isAdmin() && (
+                  <Button className='add-user-button'  onClick={toggleAddUserModal}>Добавить пользователя</Button>
+                )}
                 <Button className='add-user-button' onClick={() =>
                         setQueryUser(prev => ({
                         ...prev,

@@ -14,21 +14,66 @@ export const LoginForm = () => {
 
   const navigate = useNavigate();
 
-  const handleButton = async (e:React.FormEvent) => {
+  const handleButton = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Generate mock token and store it
-    const mockToken = generateMockToken();
-    localStorage.setItem('access_token', mockToken);
+    console.log('🔍 handleButton called with email:', email);
     
-    toast.success('Успешный вход!',
-    {
-        autoClose: 1000,
-    });
+    // Validate login - только менеджер или админ
+    const trimmedEmail = email.trim().toLowerCase();
+    console.log('✏️ trimmedEmail:', trimmedEmail);
+    
+    if (trimmedEmail !== 'менеджер' && trimmedEmail !== 'админ') {
+      console.log('❌ Invalid login');
+      toast.error('Неверный логин. Используйте: менеджер или админ',
+      {
+          autoClose: 1500,
+      });
+      return;
+    }
+    
+    try {
+      console.log('⏳ Generating token for:', trimmedEmail);
+      
+      // Generate mock token with login (password is ignored)
+      const mockToken = generateMockToken(trimmedEmail);
+      console.log('✅ Generated token:', mockToken);
+      console.log('📦 Token length:', mockToken.length);
+      
+      // Save to localStorage
+      try {
+        localStorage.setItem('access_token', mockToken);
+        localStorage.setItem('userLogin', trimmedEmail);
+        console.log('💾 Token saved to localStorage');
+      } catch (storageError) {
+        console.error('❌ Storage error:', storageError);
+        toast.error('Ошибка сохранения данных',
+        {
+            autoClose: 1500,
+        });
+        return;
+      }
+      
+      toast.success('Успешный вход!',
+      {
+          autoClose: 1000,
+      });
 
-    setTimeout(() => {
-      navigate('/catalog', { replace: true });
-    }, 1500);
+      setTimeout(() => {
+        console.log('🚀 Navigating to /catalog');
+        navigate('/catalog', { replace: true });
+      }, 1500);
+    } catch (error) {
+      console.error('❌ Login error:', error);
+      console.error('Error type:', typeof error);
+      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('Full error object:', JSON.stringify(error));
+      
+      toast.error('Ошибка при входе: ' + (error instanceof Error ? error.message : 'Неизвестная ошибка'),
+      {
+          autoClose: 1500,
+      });
+    }
   };
 
   return (
