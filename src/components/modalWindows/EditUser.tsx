@@ -45,8 +45,8 @@ export const EditUser = ({onSave, onCancelWindow ,userData}: EditUserProps) => {
 
   const [user, setUserData] = useState<ProfileResponse | null>(null);
 
-  //начальная позиция окна
-  const [position, setPosition] = useState({ x: 500, y: 500 });
+  //начальная позиция окна - центр экрана
+  const [position, setPosition] = useState({ x: window.innerWidth / 2 - 300, y: window.innerHeight / 2 - 300 });
   //флаг показывающий происходит ли перетаскивание
   const [dragging, setDragging] = useState(false);
   //используется useRef чтобы не вызывать лишних изменений 
@@ -208,8 +208,9 @@ export const EditUser = ({onSave, onCancelWindow ,userData}: EditUserProps) => {
   return (
     <div className="profile-modal-box"
      style={{
-        left: position.x,
-        top: position.y,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        transform: 'none',
       }}>
          <div className='header-modal'
          onMouseDown={handleMouseDown}>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button, Space, message, Input, InputNumber, Checkbox, Select, Switch } from 'antd';
+import { Modal, Button, Space, Input, InputNumber, Select, Switch } from 'antd';
 import { EditOutlined, DeleteOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ValueCards } from '../types/ValueCards';
 import '../style/ProductModal.css';

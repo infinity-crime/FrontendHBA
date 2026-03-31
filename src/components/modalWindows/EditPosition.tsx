@@ -19,8 +19,8 @@ export const EditPosition = ({onCancelWindow, onSave, positionData}: EditPositio
    const [positions, setPositionData] = useState<DepartmentPositionResponse| null>(positionData);
    const [errors, setErrors] = useState<Partial<EditPositionValue>>({});
 
-   //начальная позиция окна
-  const [position, setPosition] = useState({ x: 500, y: 500 });
+   //начальная позиция окна - центр экрана
+  const [position, setPosition] = useState({ x: window.innerWidth / 2 - 250, y: window.innerHeight / 2 - 200 });
   //флаг показывающий происходит ли перетаскивание
   const [dragging, setDragging] = useState(false);
   //используется useRef чтобы не вызывать лишних изменений 
@@ -109,8 +109,9 @@ export const EditPosition = ({onCancelWindow, onSave, positionData}: EditPositio
   return (
     <div className='profile-modal-box  position'
      style={{
-        left: position.x,
-        top: position.y,
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        transform: 'none',
       }}>
             <div className='header-modal'
             onMouseDown={handleMouseDown}>

@@ -27,8 +27,8 @@ export const AddPosition = ({onCancelWindow, onAddPosition}: AddPositionProps) =
   const [name, setName] = useState('');
   const [errors, setErrors] = useState<Partial<AddPositionValues>>({});
   
-  //начальная позиция окна
-  const [position, setPosition] = useState({ x: 500, y: 500 });
+  //начальная позиция окна (центр экрана)
+  const [position, setPosition] = useState({ x: window.innerWidth / 2 - 250, y: window.innerHeight / 2 - 200 });
   //флаг показывающий происходит ли перетаскивание
   const [dragging, setDragging] = useState(false);
   //используется useRef чтобы не вызывать лишних изменений 

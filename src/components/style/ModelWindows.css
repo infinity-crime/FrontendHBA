@@ -9,10 +9,8 @@
   width: 800px;
   height: 600px;
   color: black;
-  top: 45%;
-  left: 65%;
-  transform: translate(-50%, -50%);
-  z-index: 1000; 
+  z-index: 1000;
+  cursor: move;
 }
 
 .profile-modal-box.position {
@@ -25,6 +23,8 @@
     justify-content: space-between; 
     margin-left: 40px;
     margin-top: 30px;
+    cursor: move;
+    user-select: none;
 }
 
 
@@ -85,7 +85,10 @@
   display: flex;
   flex-wrap: wrap; 
   gap: 3px; 
-  padding: 20px 20px 40px 20px; 
+  padding: 20px 20px 40px 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 
@@ -99,7 +102,6 @@
   flex: 1 1 calc(50% - 15px);
   min-width: 250px;
   color: #262626;
-}
   overflow: visible;
 }
 

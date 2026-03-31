@@ -228,11 +228,9 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
         {activeButton === false ? (
         <div className='admin-info'>
             <div className = 'info-box-admin'>
-                <span onClick={() => setActiveButton(false)}>Список</span>
-                <span onClick={() => setActiveButton(true)}>Должности</span>
+                <span className={!activeButton ? 'active' : ''} onClick={() => setActiveButton(false)}>Сотрудники</span>
+                <span className={activeButton ? 'active' : ''} onClick={() => setActiveButton(true)}>Должности</span>
             </div>
-
-             <hr/>
                 <input className='search-admin' 
                 type='search'
                 placeholder="Поиск"
@@ -399,11 +397,9 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
         ) : (
         <div className='admin-info'>
             <div className = 'info-box-admin'>
-                <span onClick={() => setActiveButton(false)}>Список</span>
-                <span onClick={() => setActiveButton(true)}>Должности</span>
+                <span className={!activeButton ? 'active' : ''} onClick={() => setActiveButton(false)}>Список</span>
+                <span className={activeButton ? 'active' : ''} onClick={() => setActiveButton(true)}>Должности</span>
             </div>
-
-             <hr/>
 
             <input className='search-admin' 
              type='search'
