@@ -64,16 +64,21 @@ export const CatalogForm = () => {
   };
 
   const handleArchiveProduct = (productId: number) => {
+    const product = values.find(item => item.id === productId);
+    const newArchivedStatus = !product?.isArchived;
+    
     const updatedProducts = values.map((item) =>
-      item.id === productId ? { ...item, isArchived: true } : item
+      item.id === productId ? { ...item, isArchived: newArchivedStatus } : item
     );
     setValues(updatedProducts);
     
-    // Обновляем selectedProduct если это архивируемый товар
+    // Обновляем selectedProduct
     if (selectedProduct && selectedProduct.id === productId) {
-      setSelectedProduct({ ...selectedProduct, isArchived: true });
+      setSelectedProduct({ ...selectedProduct, isArchived: newArchivedStatus });
     }
-    message.success('Товар архивирован');
+    
+    const successMsg = newArchivedStatus ? 'Товар архивирован' : 'Товар разархивирован';
+    message.success(successMsg);
   };
 
   const handleImportCSV = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -98,6 +98,8 @@
   box-sizing: border-box;
   flex: 1 1 calc(50% - 15px);
   min-width: 250px;
+  color: #262626;
+}
   overflow: visible;
 }
 

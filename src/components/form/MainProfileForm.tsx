@@ -137,7 +137,7 @@ export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormP
 
       <div className="profile-box">
         <div className = 'header-box'>
-          <text>Контактная инфромация</text>
+          <text>Контактная информация</text>
           <span onClick={onEditClick}>Изменить</span>
         </div>
 

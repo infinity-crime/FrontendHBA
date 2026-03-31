@@ -2,11 +2,13 @@
 .product-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
   padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .no-products {
-  margin-right: 300px;
   text-align: center;
   padding: 40px;
   font-size: 18px;

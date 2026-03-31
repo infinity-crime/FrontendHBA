@@ -63,6 +63,17 @@
   padding: 15px;
   text-decoration: none;
   animation: pageLoad 1s ease-out;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.main-nav-item.active {
+  border-bottom-color: #FFD700;
+  color: #FFD700;
+}
+
+.main-nav-item:hover{
+  color:#C0C0C0;
 }
 
 .logout-button {
@@ -90,8 +101,4 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.main-nav-item:hover{
-  color:#C0C0C0;
 }

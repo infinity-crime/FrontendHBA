@@ -149,11 +149,8 @@
 
 .cards-box {
     margin-top: 40px;
-    margin-left: 250px;
     color: black;
     flex: 1;           
-    flex-wrap: nowrap;  
-      
 }
 
 .main-content {

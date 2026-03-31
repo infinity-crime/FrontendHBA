@@ -80,7 +80,7 @@
 .product-base-info .sku {
   margin: 0;
   font-size: 13px;
-  color: #8c8c8c;
+  color: #404040;
 }
 
 .product-right {
@@ -99,7 +99,7 @@
 .info-group label {
   font-weight: 600;
   font-size: 12px;
-  color: #8c8c8c;
+  color: #404040;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -137,13 +137,13 @@
 }
 
 .status.active {
-  background: #f6ffed;
-  color: #52c41a;
+  background: #e6f7ff;
+  color: #0050b3;
 }
 
 .status.inactive {
-  background: #fff1f0;
-  color: #ff4d4f;
+  background: #ffe7e7;
+  color: #c41d1d;
 }
 
 .product-edit-form {
@@ -161,7 +161,7 @@
 .form-group label {
   font-weight: 600;
   font-size: 12px;
-  color: #8c8c8c;
+  color: #404040;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -176,6 +176,10 @@
 .form-group .ant-checkbox {
   font-size: 14px;
   color: #262626;
+}
+
+.form-group .ant-switch {
+  width: auto !important;
 }
 
 .form-row {

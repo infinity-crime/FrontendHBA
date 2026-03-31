@@ -45,7 +45,7 @@
 }
 
 .date-item .label {
-  color: #8c8c8c;
+  color: #404040;
   font-weight: 500;
 }
 
@@ -75,7 +75,7 @@
 .info-item .label {
   font-size: 12px;
   font-weight: 600;
-  color: #8c8c8c;
+  color: #404040;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -99,19 +99,19 @@
 
 .items-section .product-name {
   font-weight: 500;
-  color: #1890ff;
+  color: #0050b3;
 }
 
 .items-section .total-price {
   font-weight: 600;
-  color: #52c41a;
+  color: #274d00;
 }
 
 .order-summary {
   padding: 16px;
-  background: #f6ffed;
+  background: #e6f7ff;
   border-radius: 8px;
-  border-left: 4px solid #52c41a;
+  border-left: 4px solid #0050b3;
   display: flex;
   justify-content: flex-end;
 }
@@ -134,7 +134,7 @@
 }
 
 .summary-item .value {
-  color: #52c41a;
+  color: #0050b3;
   font-weight: 700;
   font-size: 18px;
 }

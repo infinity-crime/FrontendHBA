@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button, Space, message, Input, InputNumber, Checkbox, Select } from 'antd';
+import { Modal, Button, Space, message, Input, InputNumber, Checkbox, Select, Switch } from 'antd';
 import { EditOutlined, DeleteOutlined, InboxOutlined, SaveOutlined, CloseOutlined } from '@ant-design/icons';
 import type { ValueCards } from '../types/ValueCards';
 import '../style/ProductModal.css';
@@ -42,7 +42,6 @@ export const ProductModal = ({
       } else {
         onEdit(formData);
       }
-      message.success('Товар сохранен');
       setIsEditing(false);
       setFormData(null);
       onClose();
@@ -66,13 +65,11 @@ export const ProductModal = ({
   const handleDelete = () => {
     onDelete(product.id);
     onClose();
-    message.success('Товар удален');
   };
 
   const handleArchive = () => {
     onArchive(product.id);
     onClose();
-    message.success('Товар архивирован');
   };
 
   return (
@@ -97,9 +94,6 @@ export const ProductModal = ({
               </Button>,
             ]
           : [
-              <Button key="close" onClick={onClose}>
-                Закрыть
-              </Button>,
               <Space key="actions">
                 <Button
                   type="primary"
@@ -114,7 +108,7 @@ export const ProductModal = ({
                   icon={<InboxOutlined />}
                   onClick={handleArchive}
                 >
-                  Архивировать
+                  {product.isArchived ? 'Разархивировать' : 'Архивировать'}
                 </Button>
                 <Button
                   type="primary"
@@ -216,20 +210,11 @@ export const ProductModal = ({
 
           <div className="form-row">
             <div className="form-group">
-              <Checkbox
+              <label>Товар активен</label>
+              <Switch
                 checked={formData?.isActive}
-                onChange={(e) => handleFieldChange('isActive', e.target.checked)}
-              >
-                Активен
-              </Checkbox>
-            </div>
-            <div className="form-group">
-              <Checkbox
-                checked={formData?.isArchived}
-                onChange={(e) => handleFieldChange('isArchived', e.target.checked)}
-              >
-                Архивирован
-              </Checkbox>
+                onChange={(checked) => handleFieldChange('isActive', checked)}
+              />
             </div>
           </div>
         </div>
