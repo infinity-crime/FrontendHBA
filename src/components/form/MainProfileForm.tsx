@@ -6,6 +6,9 @@ import { getDepartById} from '../../service/apiService/departamentsService.ts';
 import { Tooltip } from "antd"
 import { AddPhotoProfile, GetPhotoProfile } from '../../service/apiService/profileService.ts';
 import { getImage, saveImage } from '../../service/Common/photoManager.ts';
+import { ErrorModal } from '../modalWindows/ErrorModal.tsx';
+import { validateFileUpload } from '../../service/validators/formValidators.ts';
+import { handleApiError } from '../../service/errorHandlers/apiErrorHandler.ts';
 
 interface ViewFormProps {
   userData: ProfileResponse | null;
@@ -25,6 +28,14 @@ export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormP
   const [headDepartment, setHeadDepartment] = useState<string>('');
 
   const [preview, setPreview] = useState<string | null>(null);
+  
+  const [errorModal, setErrorModal] = useState({ 
+    isOpen: false, 
+    title: '', 
+    message: '', 
+    details: '',
+    errorType: 'validation' as const 
+  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   
@@ -68,35 +79,46 @@ export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormP
     if (userData?.id === undefined) return;
     const file = e.target.files?.[0];
 
-    if (!file.type.startsWith('image/')) {
-      toast.error('Пожалуйста, выберите изображение', {
-          autoClose: 1000,
+    // Validate file
+    const fileValidation = validateFileUpload(file, 5);
+    if (!fileValidation.isValid) {
+      setErrorModal({
+        isOpen: true,
+        title: 'Ошибка при загрузке файла',
+        message: fileValidation.errors.file?.[0] || 'Не удалось загрузить файл',
+        details: 'Пожалуйста, выберите изображение размером не более 5MB (JPEG, PNG, GIF, WebP)',
+        errorType: 'validation',
       });
       return;
     }
 
-    if (file.size > 200 * 1024) {
-      toast.error('Максимальный размер файла 200КБ.', 
-      {
-          autoClose: 1000,
+    try {
+      const formData = new FormData();
+      formData.append("file", file, file.name); 
+      
+      saveImage(userData.id, file).catch(console.error);
+      await AddPhotoProfile(userData?.id ?? 0, formData);
+      setPreview(URL.createObjectURL(file));
+   
+      toast.success('Фото добавлено!', 
+        {
+            autoClose: 1000,
+        });
+    } catch (error) {
+      const apiError = handleApiError(error);
+      setErrorModal({
+        isOpen: true,
+        title: apiError.title,
+        message: apiError.message,
+        details: apiError.details || '',
+        errorType: apiError.type as any,
       });
-      return;
     }
-    const formData = new FormData();
-    formData.append("file", file, file.name); 
-    
-    saveImage(userData.id, file).catch(console.error);
-    await AddPhotoProfile(userData?.id ?? 0, formData);
-    setPreview(URL.createObjectURL(file));
- 
-    toast.success('Фото добавлено!', 
-      {
-          autoClose: 1000,
-      });
   };
 
   return (
-    <div className='profile-container'>
+    <>
+      <div className='profile-container'>
       <div className='photo-box'>
           <div className="photo-container">
             {preview ? (
@@ -187,6 +209,15 @@ export const MainProfileForm = ({userData, onEditClick, onAdminClick}: ViewFormP
         </div>
       </div>
     </div>
-    
+
+    <ErrorModal
+      isOpen={errorModal.isOpen}
+      title={errorModal.title}
+      message={errorModal.message}
+      details={errorModal.details}
+      errorType={errorModal.errorType}
+      onClose={() => setErrorModal({ ...errorModal, isOpen: false })}
+    />
+    </>
   );
 };

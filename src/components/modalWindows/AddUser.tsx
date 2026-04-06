@@ -7,6 +7,9 @@ import Select from 'react-select';
 import type { SingleValue} from 'react-select';
 import {getAllPositionsByDepartamnetId} from '../../service/apiService/positionService.ts';
 import { IMaskInput } from "react-imask";
+import { ErrorModal } from './ErrorModal.tsx';
+import { validateUserProfile, validateEmail } from '../../service/validators/formValidators.ts';
+import { handleApiError } from '../../service/errorHandlers/apiErrorHandler.ts';
 
 interface AddUserProps {
    onCancelWindow: () => void;
@@ -56,6 +59,14 @@ export const AddUser = ({onCancelWindow, onAddUser}: AddUserProps) => {
 
   const [singleSelectedDepartament, setSingleSelectedDepartament] = useState<SingleValue<OptionDepartmentPosition>>(null);
   const [singleSelectedPosition, setSingleSelectedPosition] = useState<SingleValue<OptionDepartmentPosition>>(null);
+  
+  const [errorModal, setErrorModal] = useState({ 
+    isOpen: false, 
+    title: '', 
+    message: '', 
+    details: '',
+    errorType: 'validation' as const 
+  });
 
  //начальная позиция окна
   const [position, setPosition] = useState({ x: 500, y: 500 });
@@ -225,33 +236,45 @@ export const AddUser = ({onCancelWindow, onAddUser}: AddUserProps) => {
         positionId: singleSelectedPosition?.value || 1,  
     };
 
-      onAddUser(newUser);
-      setSingleSelectedDepartament(null);
-      setSingleSelectedPosition(null);
-      setFirstName('');
-      setLastName('');
-      setSurName('');
-      setEmail('');
-      setPhoneNumber('');
-      setDataOfBirth('');
-      onCancelWindow(); 
+      try {
+        onAddUser(newUser);
+        setSingleSelectedDepartament(null);
+        setSingleSelectedPosition(null);
+        setFirstName('');
+        setLastName('');
+        setSurName('');
+        setEmail('');
+        setPhoneNumber('');
+        setDataOfBirth('');
+        onCancelWindow(); 
+      } catch (error) {
+        const apiError = handleApiError(error);
+        setErrorModal({
+          isOpen: true,
+          title: apiError.title,
+          message: apiError.message,
+          details: apiError.details || '',
+          errorType: (apiError.type as any) || 'server',
+        });
+      }
       }
   };
 
   return (
-    <div className="profile-modal-box"
+    <>
+      <div className="profile-modal-box"
 
-     style={{
-        left: position.x,
-        top: position.y,
-      }}>
-        <div className='header-modal'
-        onMouseDown={handleMouseDown}>
-            <h2>Добавление пользователя</h2>
-            <button className='cross-modal' onClick={onCancelWindow}>
-                <FaTimes size={24} color="grey" />
-            </button>
-        </div>
+       style={{
+          left: position.x,
+          top: position.y,
+        }}>
+          <div className='header-modal'
+          onMouseDown={handleMouseDown}>
+              <h2>Добавление пользователя</h2>
+              <button className='cross-modal' onClick={onCancelWindow}>
+                  <FaTimes size={24} color="grey" />
+              </button>
+          </div>
         <div className='input-box'>
           <div className = 'info-box-modal'>
             <label>Имя</label>
@@ -385,5 +408,15 @@ export const AddUser = ({onCancelWindow, onAddUser}: AddUserProps) => {
           </button>
         </div>
       </div>
+
+      <ErrorModal
+        isOpen={errorModal.isOpen}
+        title={errorModal.title}
+        message={errorModal.message}
+        details={errorModal.details}
+        errorType={errorModal.errorType}
+        onClose={() => setErrorModal({ ...errorModal, isOpen: false })}
+      />
+    </>
   );
 };

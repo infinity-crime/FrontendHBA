@@ -63,8 +63,21 @@ export const getAllFilteredProfiles = async (
 export const adminCreateProfile = async ( request: AdminCreateProfileRequest
 ): Promise<AdminCreateProfileResponse> => {
   // Return mock response
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
+      // Проверка: если email = "for.dota@yandex.ru", то возвращаем ошибку 409 (Conflict)
+      if (request.email === 'for.dota@yandex.ru') {
+        const error: any = new Error('Email already exists');
+        error.response = {
+          status: 409,
+          data: {
+            message: 'Email already exists in the system'
+          }
+        };
+        reject(error);
+        return;
+      }
+      
       resolve({
         firstName: request.firstName,
         lastName: request.lastName,

@@ -4,35 +4,55 @@ import { toast } from 'react-toastify';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import '../style/AuthForm.css';
 import { generateMockToken } from '../../service/mockData/mockTokenService.ts';
-import type { LoginRequest } from '../types/Auth.ts';
+import { validateLoginForm } from '../../service/validators/formValidators.ts';
+import { FieldError } from '../errors/ValidationError.tsx';
+import { ErrorModal } from '../modalWindows/ErrorModal.tsx';
 
 
 export const LoginForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string[]>>({});
+  const [touchedFields, setTouchedFields] = useState<Record<string, boolean>>({});
+  const [errorModal, setErrorModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    errorType: 'validation' | 'server' | 'network' | 'permission' | 'conflict';
+  }>({ isOpen: false, title: '', message: '', errorType: 'validation' });
 
   const navigate = useNavigate();
+
+  const handleBlur = (field: string) => {
+    setTouchedFields(prev => ({ ...prev, [field]: true }));
+  };
 
   const handleButton = async (e: React.FormEvent) => {
     e.preventDefault();
     
     console.log('🔍 handleButton called with email:', email);
     
-    // Validate login - только менеджер или админ
-    const trimmedEmail = email.trim().toLowerCase();
-    console.log('✏️ trimmedEmail:', trimmedEmail);
+    // Validate login with validators
+    const validation = validateLoginForm(email, password);
+    setValidationErrors(validation.errors);
     
-    if (trimmedEmail !== 'менеджер' && trimmedEmail !== 'админ') {
-      console.log('❌ Invalid login');
-      toast.error('Неверный логин. Используйте: менеджер или админ',
-      {
-          autoClose: 1500,
+    if (!validation.isValid) {
+      console.log('❌ Validation failed:', validation.errors);
+      setErrorModal({
+        isOpen: true,
+        title: 'Ошибка валидации входа',
+        message: 'Пожалуйста, проверьте введенные данные',
+        errorType: 'validation',
       });
       return;
     }
     
+    // Mark all fields as touched for UI feedback
+    setTouchedFields({ email: true, password: true });
+    
     try {
+      const trimmedEmail = email.trim().toLowerCase();
       console.log('⏳ Generating token for:', trimmedEmail);
       
       // Generate mock token with login (password is ignored)
@@ -47,9 +67,11 @@ export const LoginForm = () => {
         console.log('💾 Token saved to localStorage');
       } catch (storageError) {
         console.error('❌ Storage error:', storageError);
-        toast.error('Ошибка сохранения данных',
-        {
-            autoClose: 1500,
+        setErrorModal({
+          isOpen: true,
+          title: 'Ошибка сохранения',
+          message: 'Не удалось сохранить данные в браузере',
+          errorType: 'server' as const,
         });
         return;
       }
@@ -65,13 +87,11 @@ export const LoginForm = () => {
       }, 1500);
     } catch (error) {
       console.error('❌ Login error:', error);
-      console.error('Error type:', typeof error);
-      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
-      console.error('Full error object:', JSON.stringify(error));
-      
-      toast.error('Ошибка при входе: ' + (error instanceof Error ? error.message : 'Неизвестная ошибка'),
-      {
-          autoClose: 1500,
+      setErrorModal({
+        isOpen: true,
+        title: 'Ошибка при входе',
+        message: error instanceof Error ? error.message : 'Неизвестная ошибка',
+        errorType: 'server',
       });
     }
   };
@@ -81,39 +101,69 @@ export const LoginForm = () => {
       <div className="auth-box">
         <form  onSubmit={handleButton} className="auth-form" method="POST">
           <div className="form-group">
-              <input
-                value={email}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setEmail(e.target.value);
-                }}
-                placeholder="Логин"
-              />
+            <label>Логин</label>
+            <input
+              value={email}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                setEmail(e.target.value);
+                setValidationErrors(prev => {
+                  const newErrors = { ...prev };
+                  delete newErrors.email;
+                  return newErrors;
+                });
+              }}
+              onBlur={() => handleBlur('email')}
+              placeholder="Логин"
+              style={{ borderColor: validationErrors.email ? '#d32f2f' : undefined }}
+            />
+            {touchedFields.email && validationErrors.email && (
+              <FieldError error={validationErrors.email[0]} touched />
+            )}
           </div>
           
-            <div className="form-group">
-              <div className='input-button'>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          <div className="form-group">
+            <label>Пароль</label>
+            <div className='input-button'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setPassword(e.target.value);
+                  setValidationErrors(prev => {
+                    const newErrors = { ...prev };
+                    delete newErrors.password;
+                    return newErrors;
+                  });
                 }}
-                  placeholder="Пароль"
-                />
+                onBlur={() => handleBlur('password')}
+                placeholder="Пароль"
+                style={{ borderColor: validationErrors.password ? '#d32f2f' : undefined }}
+              />
 
-                <span 
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-              </div>
+              <span 
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
+            {touchedFields.password && validationErrors.password && (
+              <FieldError error={validationErrors.password[0]} touched />
+            )}
+          </div>
           
           <button type="submit" className="auth-button">
             Войти
           </button>
         </form>
       </div>
+
+      <ErrorModal
+        isOpen={errorModal.isOpen}
+        title={errorModal.title}
+        message={errorModal.message}
+        errorType={errorModal.errorType as any}
+        onClose={() => setErrorModal({ ...errorModal, isOpen: false })}
+      />
     </div>
   );
 };

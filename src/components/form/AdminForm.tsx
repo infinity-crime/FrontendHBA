@@ -18,6 +18,8 @@ import { CloseCircleOutlined} from '@ant-design/icons';
 import { createPosition, deletePosition, getAllPositionsByDepartamnetId, updatePosition } from '../../service/apiService/positionService.ts';
 import { getAllDepartmentPositions, type PositionsQuery } from '../../service/apiService/departamentPositionService.ts';
 import type { DepartmentPositionResponse } from '../types/DepartmentPosition.ts';
+import { ErrorModal } from '../modalWindows/ErrorModal';
+import { handleApiError } from '../../service/errorHandlers/apiErrorHandler';
 
 interface AdminFormProps {
   onAdminClick: () => void;  
@@ -47,6 +49,19 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
   const [showAddPositionModal, setShowAddPositionModal] = useState(false);
   const [showEditUserModel, setShowEditUserModal] = useState(false);
   const [showEditPositionModal, setShowEditPositionModal] = useState(false);
+  const [errorModal, setErrorModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    errorType: 'validation' | 'server' | 'network' | 'permission' | 'conflict';
+    details: string;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    errorType: 'validation',
+    details: '',
+  });
 
 
    const [queryUser, setQueryUser] = useState<UsersQuery>({
@@ -146,9 +161,20 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
     };
 
   const addToUser = async  (userData: AdminCreateProfileRequest) => {
-      await adminCreateProfile(userData);
-      await fetchProfile();
-      setShowAddUserModal(false);
+      try {
+        await adminCreateProfile(userData);
+        await fetchProfile();
+        setShowAddUserModal(false);
+      } catch (error) {
+        const apiError = handleApiError(error);
+        setErrorModal({
+          isOpen: true,
+          title: apiError.title,
+          message: apiError.message,
+          errorType: (apiError.type as any) || 'server',
+          details: apiError.details || '',
+        });
+      }
   };
 
   const editToUser = async (newData: ProfileResponse | null) => {
@@ -567,6 +593,14 @@ export const AdminForm = ({onAdminClick}: AdminFormProps)  => {
         </div>
          )}
     </div>
+    <ErrorModal
+      isOpen={errorModal.isOpen}
+      title={errorModal.title}
+      message={errorModal.message}
+      details={errorModal.details}
+      errorType={errorModal.errorType}
+      onClose={() => setErrorModal({ ...errorModal, isOpen: false })}
+    />
     </>
   );
 };
