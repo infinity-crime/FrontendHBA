@@ -1,0 +1,33 @@
+.onboarding-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+  font-size: 24px;
+}
+
+.onboarding-button:hover {
+  background-color: #357abd;
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.5);
+  transform: scale(1.05);
+}
+
+.onboarding-button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 768px) {
+  .onboarding-button {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+}

@@ -8,7 +8,7 @@ import type { SingleValue} from 'react-select';
 import {getAllPositionsByDepartamnetId} from '../../service/apiService/positionService.ts';
 import { IMaskInput } from "react-imask";
 import { ErrorModal } from './ErrorModal.tsx';
-import { validateUserProfile, validateEmail } from '../../service/validators/formValidators.ts';
+import { validateEmail } from '../../service/validators/formValidators.ts';
 import { handleApiError } from '../../service/errorHandlers/apiErrorHandler.ts';
 
 interface AddUserProps {

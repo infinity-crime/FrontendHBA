@@ -3,6 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Badge } from 'antd';
 import { logout } from '../../service/apiService/authService.ts';
 import { getMockNotifications } from '../../service/mockData/mockNotificationData.ts';
+import { FAQButton } from '../../components/FAQButton';
+import { OnboardingButton } from '../../components/OnboardingButton';
 import './MainLayout.css';
 
 interface MainLayoutProps {
@@ -29,6 +31,16 @@ export const MainLayout = ({ children}: MainLayoutProps) => {
     return location.pathname === path;
   }
 
+  const getPageName = () => {
+    if (location.pathname === '/catalog') return 'CatalogPage';
+    if (location.pathname === '/sales') return 'SalesPage';
+    if (location.pathname === '/notifications') return 'NotificationsPage';
+    if (location.pathname === '/profile') return 'ProfilePage';
+    if (location.pathname === '/advertising') return 'AdvertisingPage';
+    if (location.pathname === '/data') return 'DataPage';
+    return 'General';
+  }
+
   return (
     <div className="main-layout">
       <nav className="main-nav">
@@ -44,6 +56,10 @@ export const MainLayout = ({ children}: MainLayoutProps) => {
         </div>
       </nav>
       <main>{children}</main>
+      <div className="layout-buttons">
+        <FAQButton pageName={getPageName()} />
+        <OnboardingButton />
+      </div>
     </div>
   );
 };

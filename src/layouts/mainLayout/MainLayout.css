@@ -114,3 +114,22 @@
     transform: translateY(0);
   }
 }
+
+.layout-buttons {
+  position: fixed;
+  bottom: 24px;
+  right: 120px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  z-index: 999;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .layout-buttons {
+    bottom: 16px;
+    right: 16px;
+    gap: 8px;
+  }
+}

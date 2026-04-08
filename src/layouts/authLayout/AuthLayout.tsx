@@ -1,4 +1,5 @@
 import React from 'react';
+import { FAQButton } from '../../components/FAQButton';
 import './AuthLayout.css';
 
 interface AuthLayoutProps {
@@ -16,6 +17,7 @@ export const AuthLayout = ({ children, buttonText,
         <span className="nav-button" onClick={onButtonClick} >{buttonText}</span>
       </nav>
       <main>{children}</main>
+      <FAQButton pageName="General" />
     </div>
     
   );

@@ -1,0 +1,58 @@
+/* FAQButton.css - Стили для кружочка с вопросом */
+
+.faq-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all 0.3s ease;
+  z-index: 99;
+  font-size: 28px;
+}
+
+.faq-button:hover {
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.faq-button:active {
+  transform: scale(0.95);
+}
+
+/* Пульсирующая анимация */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+  50% {
+    box-shadow: 0 4px 25px rgba(102, 126, 234, 0.8);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.faq-button:hover {
+  animation: pulse 1.5s infinite;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .faq-button {
+    width: 50px;
+    height: 50px;
+    bottom: 20px;
+    right: 20px;
+    font-size: 24px;
+  }
+}
