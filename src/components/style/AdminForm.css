@@ -40,8 +40,8 @@
 }
 
 .info-box-admin span.active{
-    color: #FFD700;
-    border-bottom-color: #FFD700;
+    color: black;
+    border-bottom-color: black;
 }
 
 .info-box-admin span:hover{
